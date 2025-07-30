@@ -3,36 +3,28 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux';
-import { setUserData } from '../slices/authSlice';
 import { hideLoader, showLoader } from '../slices/commonSlice';
-import { getAllUser, getLogin } from '../services/commonService';
-import { Button, message } from "antd";
+import { getAllUser, getLogin, getSignUp } from '../services/commonService';
+import { message } from 'antd';
 
 
 
-const Login = () => {
-    const { login, token } = useAuth();
+const SignUP = () => {
     const navigate = useNavigate();
     const storeToken = useSelector(state => state.counter.token);
-    const loader = useSelector(state => state.common.loader);
     const dispatch = useDispatch();
 
-    const handleLogin = async (formData) => {
+    const handleSignUp = async (formData) => {
         // login(data); // Simulated login
         // dispatch(showLoader());
         try {
-            const data = await getLogin(null, formData);
-
-            if (data && data?.code == 1 && data?.additionalDetail) {
-                dispatch(setUserData(data?.additionalDetail));
-                message.success('User logged-in successfully');
-                reset();
+            const data = await getSignUp(formData);
+            if (data && data?.code == 1) {
+                navigate('/login');
+                message.success(data?.additionalDetail || 'User registered successfully');
 
             } else {
-                reset({
-                    password: '',
-                });
-                message.error(data?.additionalDetail || 'Something went wrong');
+                message.error(data?.additionalDetail || 'Something went wrong')
 
             }
         } catch (error) {
@@ -50,10 +42,13 @@ const Login = () => {
     };
 
     useEffect(() => {
-        console.log('loginComponent-------', token);
-        console.log('loginComponent-----------storeToken-------', storeToken);
+        console.log('SignUP-----------storeToken-------', storeToken);
+        if (storeToken) {
+            navigate('/dashboard');
 
-    }, [storeToken]);
+        }
+
+    }, []);
 
     const {
         register,
@@ -64,8 +59,7 @@ const Login = () => {
 
     const onSubmit = (data) => {
         console.log("Form Data:", data);
-        if (!loader)
-            handleLogin(data);
+        handleSignUp(data);
     };
 
     return (
@@ -75,19 +69,36 @@ const Login = () => {
                     onSubmit={handleSubmit(onSubmit)}
                     className="bg-white shadow-lg rounded-lg p-8 w-full max-w-sm space-y-4"
                 >
-                    <h2 className="text-2xl font-bold text-center text-gray-800">Login</h2>
-
+                    <h2 className="text-2xl font-bold text-center text-gray-800">Sign Up</h2>
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Username</label>
+                        <input
+                            {...register("username", { required: "This field is required" })}
+                            type="text"
+                            className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+                            placeholder="Username here"
+                        />
+                        {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>}
+                    </div>
                     <div>
                         <label className="block text-sm font-medium mb-1">Phone Number</label>
                         <input
                             {...register("phoneNumber", { required: "This field is required" })}
                             type="text"
-                            maxLength={11}
-                            minLength={11}
                             className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
                             placeholder="03XXXXXXXXX"
                         />
                         {errors.phoneNumber && <p className="text-red-500 text-sm mt-1">{errors.phoneNumber.message}</p>}
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Email</label>
+                        <input
+                            {...register("email", { required: "This field is required" })}
+                            type="email"
+                            className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+                            placeholder="user@email.com"
+                        />
+                        {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
                     </div>
 
                     <div>
@@ -100,23 +111,14 @@ const Login = () => {
                         />
                         {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
                     </div>
-                    <div className="flex justify-between m-1">
-                        <span>
-                            Not have an account?
-                        </span>
-                        <a className='text-blue-700 hover:text-gray-700' onClick={() => { navigate('/signUp'); }}>Sign Up</a>
-                    </div>
 
                     <button
                         type="submit"
                         disabled={isSubmitting}
                         className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
                     >
-                        {isSubmitting ? "Logging in..." : "Login"}
+                        {isSubmitting ? "Signing in..." : "Register"}
                     </button>
-                    <div className="flex p-0 m-0">
-                        <a className='text-blue-700 hover:text-gray-700 underline' onClick={() => { navigate('/forgetPassword'); }}>Forget Password</a>
-                    </div>
                 </form>
             </div>
             {/* <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
@@ -171,4 +173,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default SignUP;

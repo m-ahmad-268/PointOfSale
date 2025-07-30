@@ -1,21 +1,37 @@
 import { useDispatch, useSelector } from "react-redux";
-import { decrement } from "../slices/authSlice";
+import { reestData } from "../slices/authSlice";
 import { hideLoader, showLoader } from "../slices/commonSlice";
+import { logout } from "../services/commonService";
+import { message } from "antd";
 
 const Header = () => {
-    // const storeToken = useSelector(state => state.counter.token);
+    const userDetail = useSelector(state => state.counter.userDetail);
+    const token = useSelector(state => state.counter.token);
     const loader = useSelector(state => state.common.loader);
     const dispatch = useDispatch();
 
 
-    const logout = () => {
+    const getLogout = async () => {
+        if (!token)
+            return;
+
         dispatch(showLoader());
+        try {
+            const data = await logout(null, { token: token });
+            if (data && data?.code == 1 && data?.additionalDetail) {
+                dispatch(reestData());
+                message.success(data?.additionalDetail || 'User logout successfully')
+            } else {
+                message.error(data?.additionalDetail || 'Something went wrong')
 
-        setTimeout(() => {
-            dispatch(decrement());
+            }
             dispatch(hideLoader());
+        } catch (error) {
+            console.error('Error fetching user:', error);
+            dispatch(hideLoader());
+        }
 
-        }, 1500);
+
 
         // navigate('/dashboard');
     };
@@ -38,10 +54,10 @@ const Header = () => {
                 </nav>
 
 
-                <a className="flex items-center space-x-4" onClick={logout} >
-                    <span className="text-sm text-gray-600 hidden sm:block">Hi, User</span>
+                <a className="flex items-center space-x-4" onClick={getLogout} >
+                    <span className="text-sm text-gray-600 hidden sm:block">Hi, {userDetail?.username || ''}</span>
                     <img
-                        src="https://ui-avatars.com/api/?name=Faizan+T&background=0D8ABC&color=fff"
+                        src={`https://ui-avatars.com/api/?name=${userDetail?.username}+&background=0D8ABC&color=fff`}
                         alt="User Avatar"
                         className="w-8 h-8 rounded-full"
                     />

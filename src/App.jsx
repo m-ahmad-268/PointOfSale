@@ -20,6 +20,10 @@ function App() {
     ]);
   }
 
+  const handleClick = () => {
+    message.error('This is an AntD error toast!');
+  };
+
   function handleCreateProjectFromSidebar() {
     setShowHomePage(false);
     setShowForm(true);
@@ -30,6 +34,8 @@ function App() {
     console.log("Showing Project - ", projectIndex);
     setShowProjectIndex(projectIndex);
   }
+
+
 
   return (
     <div className="grid">

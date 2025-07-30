@@ -6,6 +6,8 @@ import { AuthProvider } from './context/authContext.jsx';
 import './index.css'
 import { Provider } from 'react-redux';
 import store from './store.jsx';
+import 'react-toastify/ReactToastify.css';
+import 'antd/dist/reset.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -18,5 +20,3 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </BrowserRouter>
   </React.StrictMode>
 );
-
-<App />

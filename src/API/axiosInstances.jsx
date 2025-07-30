@@ -37,7 +37,7 @@ instance.interceptors.response.use(
     },
     (error) => {
         store.dispatch(hideLoader());
-        console.error('API error:', error.response?.data?.message || error.message);
+        console.error('API error:', error || error.message);
         return Promise.reject(error);
     }
 );
