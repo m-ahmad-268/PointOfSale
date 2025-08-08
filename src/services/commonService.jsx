@@ -1,5 +1,5 @@
 
-import { deleteApiRequest, getApiRequest, postApiRequest } from '../api/request';
+import { getApiRequest, postApiRequest } from '../api/request';
 
 
 const getAllUserUrl = 'customers/allUser';
