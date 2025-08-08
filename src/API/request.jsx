@@ -28,17 +28,16 @@ export const postApiRequest = (async (url, data, params) => {
     }
 });
 
-export const deleteApiRequest = (async (url, data, params) => {
-    try {
-        const response = await axios({
-            method: 'delete',
-            url: url,
-            data: data,
-            params: { ...params } || {},
-        });
-        return response.data;
-    } catch (error) {
-        throw error;
-        // throw error.response?.data || error;
-    }
-});
+// export const deleteApiRequest = (async (url, data, params) => {
+//     try {
+//         const response = await axios({
+//             method: 'delete',
+//             url: url,
+//             data: data,
+//             params: { ...params } || {},
+//         });
+//         return response.data;
+//     } catch (error) {
+//         throw error;
+//     }
+// });
