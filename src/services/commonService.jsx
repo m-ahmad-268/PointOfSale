@@ -10,12 +10,16 @@ const validateUrl = 'pos/authentication/validate';
 const sendOtpUrl = 'pos/api/password/send-otp';
 const verifyOtpUrl = 'pos/api/password/verify-otp';
 const resetPasswordUrl = 'pos/api/password/reset';
+const getProductsUrl = 'pos/product/getProducts';
 
+
+export const getAllProduct = ((data, params) => {
+    return getApiRequest(getProductsUrl, data, params)
+});
 
 export const getAllUser = ((data, params) => {
     return getApiRequest(getAllUserUrl, data, params)
-}
-);
+});
 
 export const validateSession = ((data, params) => {
     return getApiRequest(validateUrl, data, params)
@@ -26,7 +30,7 @@ export const getLogin = ((data, params) => {
 });
 
 export const logout = ((data, params) => {
-    return deleteApiRequest(logoutUrl, data, params)
+    return getApiRequest(logoutUrl, data, params)
 });
 
 

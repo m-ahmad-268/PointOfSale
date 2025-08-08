@@ -11,7 +11,7 @@ import { Button, message } from "antd";
 
 
 const Login = () => {
-    const { login, token } = useAuth();
+    // const { login, token } = useAuth();
     const navigate = useNavigate();
     const storeToken = useSelector(state => state.counter.token);
     const loader = useSelector(state => state.common.loader);
@@ -21,8 +21,7 @@ const Login = () => {
         // login(data); // Simulated login
         // dispatch(showLoader());
         try {
-            const data = await getLogin(null, formData);
-
+            const data = await getLogin(formData);
             if (data && data?.code == 1 && data?.additionalDetail) {
                 dispatch(setUserData(data?.additionalDetail));
                 message.success('User logged-in successfully');
@@ -50,8 +49,10 @@ const Login = () => {
     };
 
     useEffect(() => {
-        console.log('loginComponent-------', token);
+        // console.log('loginComponent-------', token);
         console.log('loginComponent-----------storeToken-------', storeToken);
+        if (storeToken)
+            navigate('/dashboard');
 
     }, [storeToken]);
 

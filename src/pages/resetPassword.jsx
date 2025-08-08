@@ -49,7 +49,7 @@ const ResetPassword = () => {
             const data = await resetPassword(formData);
             if (data && data?.code == 1) {
                 navigate('/login');
-                c
+                message.success(data?.additionalDetail || 'password updated successfully');
 
             } else {
                 message.error(data?.additionalDetail || 'Something went wrong');

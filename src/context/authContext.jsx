@@ -9,14 +9,6 @@ export const AuthProvider = ({ children }) => {
     // const dispatch = useDispatch();
 
 
-    useEffect(() => {
-        const storedToken = localStorage.getItem('token');
-        setToken(storedToken);
-
-        console.log('data from loader', loader);
-
-    }, []);
-
     const login = (data) => {
         console.log('data from login', data);
         localStorage.setItem('token', 'isLoggedIn');

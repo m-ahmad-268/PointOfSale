@@ -2,7 +2,7 @@ import { Outlet, Route, Routes, useNavigate } from 'react-router-dom';
 import Login from '../pages/login';
 import Dashboard from '../pages/dashboard';
 import Setting from '../pages/setting';
-import Hello from '../pages/hello';
+import Products from '../pages/products';
 import Check from '../pages/check';
 import Header from '../components/header';
 import { Navigate } from 'react-router-dom';
@@ -27,9 +27,6 @@ const AppRoutes = () => {
         let intervalId;
 
         if (storeToken) {
-            // Navigate on token
-            navigate('/dashboard');
-
             // Start interval to validate session
             intervalId = setInterval(() => {
                 (async () => {
@@ -44,7 +41,7 @@ const AppRoutes = () => {
                         console.error('Error fetching user:', error.message);
                     }
                 })();
-            }, 50000);
+            }, 60000);
         }
 
         // Cleanup on unmount or token change
@@ -102,12 +99,9 @@ const AppRoutes = () => {
                 }
             >
                 {/* <Route element={<Setting />} /> */}
-                <Route path='hello' element={<Hello />}>
-                </Route>
+                <Route path='allProducts' element={<Products />} />
                 <Route path='check' element={<Check />} />
             </Route>
-
-
             <Route path="*" element={<Navigate to="/" />} />
         </Routes >
     );

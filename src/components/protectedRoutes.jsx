@@ -12,7 +12,7 @@ const ProtectedRoute = ({ children }) => {
 
     // console.log('tokenfromprotecetdRoutes', token);
     // console.log('tokenfromprotecetdRoutes------storeToken', storeToken);
-
+    // debugger
     return storeToken ? children : <Navigate to="/" replace />;
 };
 
