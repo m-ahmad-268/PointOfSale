@@ -1,5 +1,5 @@
 
-import { getApiRequest, postApiRequest } from '../api/request.jsx';
+import { getApiRequest, postApiRequest } from '../API/request.jsx';
 
 
 const getAllUserUrl = 'customers/allUser';
